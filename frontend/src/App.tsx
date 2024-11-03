@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
-function App() {
-  const [data, setData] = useState('');
+const App: React.FC = () => {
+  const [data, setData] = useState<string>('');
 
   useEffect(() => {
     fetch('http://localhost:5000/api/data')
@@ -14,6 +14,6 @@ function App() {
       <h1 className="text-2xl font-bold">{data || 'Loading...'}</h1>
     </div>
   );
-}
+};
 
 export default App;
