@@ -1,0 +1,47 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.venv/
+venv/
+env/
+env.bak/
+*.egg-info/
+dist/
+build/
+*.db
+
+# Flask
+instance/
+*.log
+
+# React
+node_modules/
+build/
+*.cache
+.DS_Store
+
+# OS files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+*.swp
+*.swo
+.idea/
+.vscode/
+
+# Python IDEs
+.vscode/
+*.iml
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.coverage
+.coverage.*
+nosetests.xml
+*.coverage
+
+# Environment variables
+.env
