@@ -15,27 +15,30 @@ Make sure you have the following installed on your machine:
 ### Backend Setup (Flask)
 
 Create and activate a virtual environment:
-```
+
+``` bash
 cd backend
 python -m venv venv
 source venv/bin/activate  # On Windows use `venv\Scripts\activate`
 ```
 
 Install the required Python packages:
-```
+
+``` bash
 pip install -r requirements.txt
 ```
 
 Run the Flask app:
-```
+
+``` bash
 python app.py
 ```
 
-The backend will be running at http://localhost:5000
+The backend will be running at <http://localhost:5000>
 
 ### Frontend Setup (React)
 
-```
+``` bash
 cd frontend
 npm install
 npm start
@@ -45,5 +48,5 @@ npm start
 
 Once both the backend and frontend are running, you can access the application in your web browser at:
 
-* Frontend: http://localhost:3000
-* Backend API: http://localhost:5000/api/data
+- Frontend: <http://localhost:3000>
+- Backend API: <http://localhost:5000/api/data>
