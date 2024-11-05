@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+import time
 
 app = Flask(__name__)
 CORS(app)
@@ -9,6 +10,8 @@ def submit():
     # Get data from the POST request
     data = request.json  # Assuming the frontend is sending JSON data
     input_text = data.get('input', '')  # Retrieve the input value
+
+    # time.sleep(5)  # Delay for 3 seconds to test progress bar
 
     if input_text:
         # Here you can process the input text if necessary

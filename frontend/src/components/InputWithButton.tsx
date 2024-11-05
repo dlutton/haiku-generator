@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
+import { Progress } from './ui/progress';
 import { Alert, AlertDescription, AlertTitle } from './ui/alert';
 import { AlertCircle } from 'lucide-react';
 
@@ -9,6 +10,8 @@ const InputWithButton: React.FC = () => {
   const [inputValue, setInputValue] = useState('');
   const [responseErrorMessage, setResponseErrorMessage] = useState('');
   const [responseMessage, setResponseMessage] = useState('');
+  const [loading, setLoading] = useState(false);  // Track loading state
+  const [progress, setProgress] = useState(0);    // Track progress state
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setResponseErrorMessage(''); // Clear the alert when the user changes input
@@ -18,7 +21,18 @@ const InputWithButton: React.FC = () => {
 
   const handleSubmit = async () => {
     if (inputValue.trim()) {
+      setLoading(true);  // Start loading
+      setProgress(0);    // Reset progress bar
+
       try {
+         // Simulate progress update while waiting for the response
+         let progressInterval = setInterval(() => {
+          setProgress((prev) => {
+            if (prev < 100) return prev + 10;
+            return prev;
+          });
+        }, 500);
+        
         const response = await fetch('http://localhost:5000/submit', {
           method: 'POST',
           headers: {
@@ -26,6 +40,8 @@ const InputWithButton: React.FC = () => {
           },
           body: JSON.stringify({ input: inputValue }), // Send the input as JSON
         });
+
+        clearInterval(progressInterval);  // Stop the progress update
 
         const data = await response.json();
 
@@ -41,6 +57,9 @@ const InputWithButton: React.FC = () => {
         // Handle network errors
         setResponseErrorMessage('Error submitting data');
         console.error(error);
+      } finally {
+        setLoading(false);  // End loading
+        setProgress(100);   // Ensure progress reaches 100% when done
       }
     }
   };
@@ -60,9 +79,9 @@ const InputWithButton: React.FC = () => {
           />
           <Button
               onClick={handleSubmit}
-              disabled={isButtonDisabled}
+              disabled={isButtonDisabled || loading}
               className={`${
-                isButtonDisabled
+                isButtonDisabled || loading
                   ? 'bg-slate-300 text-slate-500 cursor-not-allowed'
                   : 'bg-slate-600 text-white hover:bg-slate-500 focus:ring-slate-500'
               } p-2 rounded-lg focus:outline-none focus:ring-2`}
@@ -70,6 +89,15 @@ const InputWithButton: React.FC = () => {
             Start
           </Button>
         </div>
+        {/* Display progress bar when loading */}
+        {loading && (
+          <Progress
+            value={progress}
+            max={100}
+            className="w-full mt-4"
+            color="slate"
+          />
+        )}
         {responseErrorMessage && (
           <Alert variant="destructive" className="w-full">
             <AlertCircle className="h-4 w-4" />
