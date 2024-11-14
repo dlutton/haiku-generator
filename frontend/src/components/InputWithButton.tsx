@@ -67,7 +67,7 @@ const InputWithButton: React.FC = () => {
   const isButtonDisabled = inputValue.trim() === '';
 
   return (
-    <div className="flex justify-center items-center py-10">
+    <div className="flex justify-center items-center pb-10">
       <div className="flex flex-col items-center space-y-4 w-auto">
         <div className="flex items-center space-x-2 w-full rounded-lg border border-slate-300 p-2 shadow-sm">
           <Input
