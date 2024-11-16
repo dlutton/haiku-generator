@@ -1,5 +1,24 @@
+"""
+pip install cmudict
+pip install nltk
+/Applications/Python\ 3.11/Install\ Certificates.command
+"""
+
 import random
-import re
+import cmudict
+import nltk
+from nltk.corpus import cmudict
+import logging
+from nltk import download
+
+# Suppress NLTK's download messages:
+logging.getLogger('nltk').setLevel(logging.CRITICAL)
+# Disable tqdm progress bar for downloads:
+nltk.download('cmudict', quiet=True)
+# Load the CMU Pronouncing Dictionary:
+d = cmudict.dict()
+print(d.get('cruel'))
+
 
 """
 Function: count_syllables
@@ -8,27 +27,17 @@ Function: count_syllables
 """
 def count_syllables(word):
     word = word.lower()
-    # Count vowel groups using regex:
-    syllable_count = len(re.findall(r'[aeiouy]+', word))
-    # Debugging output:
-    print(f"Word: {word}, Syllable Count (before adjustments): {syllable_count}")
-    # Handle silent 'e', 'es', 'ed', 'ion' at the end of the word:
-    if (word.endswith('e') or 
-        (word.endswith('es') and len(word) > 2 and len(word) < 8) or 
-        word.endswith('ed') or word.endswith('ion')) and syllable_count > 1:
-        syllable_count -= 1
-    # Handle 'le' at the end of the word, or words like 'photo', 'cry':
-    if word.endswith('le') and len(word) > 2 and word[-3] not in "aeiouy":
-        syllable_count += 1
-    # Adjust for vowel pairs:
-    syllable_count -= len(re.findall(r'(ea|eo|ou|oo|ei|eu|hua|oy|ey|ay)(?![aeiouy])', word))
-    # Adjust for adjacent vowels often split into separate syllables:
-    syllable_count += len(re.findall(r'(ia|eo|oe|ua|io)', word))
-    # Treat 'ea' in the middle as two syllables:
-    if re.search(r'ea', word) and len(re.findall(r'[aeiouy]+', word)) == 1 and word not in ["sea", "pea", "lea"]:
-        syllable_count += 1  # Add one more syllable for "ea" in words like "weary"
-    # Ensure at least 1 syllable per word:
-    return max(1, syllable_count)
+    # Try to find the word in CMUdict dictionary:
+    if word in d:
+        # Get all possible pronunciations and select the one with the fewest syllables:
+        syllable_count = min([len([y for y in x if y[-1].isdigit()]) for x in d[word]])
+        # Error checking print statement for debugging
+        #print(f"Word: {word}, Syllables: {syllable_count}")
+        return syllable_count
+    else:
+        # If word is not in CMUdict, return 1 syllable as a fallback:
+        #print(f"Word: {word}, Syllables: 1 (fallback)")  # For words not found in CMUdict
+        return 1
 
 """
 Function: format_haiku_line
@@ -38,22 +47,15 @@ Function: format_haiku_line
 def format_haiku_line(words, target_syllables):
     line = []
     syllable_count = 0
-    # Debugging output:
-    print(f"Starting line with target {target_syllables} syllables.")
     for i, word in enumerate(words):
         syllables_in_word = count_syllables(word)
-        # Debugging output:
-        print(f"Word: {word}, Syllables in word: {syllables_in_word}, Current syllable count: {syllable_count}")
         if syllable_count + syllables_in_word <= target_syllables:
             line.append(word)
             syllable_count += syllables_in_word
         if syllable_count == target_syllables:
-            print(f"Line complete: {' '.join(line)}")
             break
-    # Return the line and the remaining words:
+    print(f"Formed line: {' '.join(line)} | Syllable count: {syllable_count}")
     remaining_words = words[len(line):]
-    # Debugging output:
-    print(f"Remaining words after forming line: {remaining_words}")
     return " ".join(line), remaining_words
 
 """
