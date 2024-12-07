@@ -3,7 +3,6 @@ import os
 
 client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
 
-# Replace "your-fine-tuned-model" with the actual model ID from your dashboard
 completion = client.chat.completions.create(
     model="ft:gpt-4o-mini-2024-07-18:personal:haiku-generator2:AaVJvva8",
     messages=[

@@ -22,7 +22,7 @@ def submit():
 
     if input_text:
         response = client.chat.completions.create(
-            model="ft:gpt-4o-mini-2024-07-18:personal:haiku-generation:AZkP9YR5",
+            model="ft:gpt-4o-mini-2024-07-18:personal:haiku-generator2:AaVJvva8",
             messages=[
                 {"role": "system", "content": "You are a 5-7-5 syllable structure haiku generator."},
                 {
