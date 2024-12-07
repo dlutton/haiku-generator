@@ -27,7 +27,7 @@ def submit():
                 {"role": "system", "content": "You are a 5-7-5 syllable structure haiku generator."},
                 {
                     "role": "user",
-                    "content": "Write a haiku based on {input_text} that follows the 5-7-5 syllable structure."
+                    "content": f"Write a haiku based on {input_text} that follows the 5-7-5 syllable structure."
                 }
             ],
             temperature=0.8,
