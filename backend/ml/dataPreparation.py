@@ -5,7 +5,7 @@ from collections import defaultdict
 import os
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
-data_path = os.path.join(current_dir, "fine-tuning-data.jsonl")
+data_path = os.path.join(current_dir, "formattedData.jsonl")
 
 # Load the dataset
 with open(data_path, 'r', encoding='utf-8') as f:
