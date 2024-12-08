@@ -4,7 +4,7 @@ import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Progress } from './ui/progress';
 import { Alert, AlertDescription, AlertTitle } from './ui/alert';
-import { AlertCircle } from 'lucide-react';
+import { AlertCircle, Terminal } from 'lucide-react';
 
 const InputWithButton: React.FC = () => {
   const [inputValue, setInputValue] = useState('');
@@ -105,6 +105,15 @@ const InputWithButton: React.FC = () => {
             <AlertDescription>
               {responseErrorMessage}
             </AlertDescription>
+          </Alert> 
+        )}
+        {responseMessage && (
+          <Alert className="w-full">
+            <Terminal className="h-4 w-4" />
+              <AlertTitle>Generated Haiku</AlertTitle>
+              <AlertDescription>
+                {responseMessage}
+              </AlertDescription>
           </Alert> 
         )}
       </div>
